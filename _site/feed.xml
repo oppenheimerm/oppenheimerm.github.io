@@ -1,0 +1,345 @@
+<?xml version="1.0" encoding="utf-8"?><feed xmlns="http://www.w3.org/2005/Atom" ><generator uri="https://jekyllrb.com/" version="4.2.2">Jekyll</generator><link href="http://localhost:4000/feed.xml" rel="self" type="application/atom+xml" /><link href="http://localhost:4000/" rel="alternate" type="text/html" /><updated>2022-08-29T17:01:54+01:00</updated><id>http://localhost:4000/feed.xml</id><title type="html">Michiel Oppenheimer</title><subtitle>...Just wheeling my way through &lt;br&gt;life, science, and code...</subtitle><author><name>Michiel Oppenheimer</name></author><entry><title type="html">Jupyter Automation</title><link href="http://localhost:4000/2022/08/27/jupyter-automation/" rel="alternate" type="text/html" title="Jupyter Automation" /><published>2022-08-27T00:00:00+01:00</published><updated>2022-08-27T00:00:00+01:00</updated><id>http://localhost:4000/2022/08/27/jupyter-automation</id><content type="html" xml:base="http://localhost:4000/2022/08/27/jupyter-automation/"><![CDATA[<p>In the [last post], I tested out the functionality of [Jupyter Notebook], a platform that I am just starting to get acquainted with. I’m pleased with how that experimental post turned out, although there are still things to modify and improve. In this post, I explain how I was able to automate the process of converting Jupyter Notebook into markdown using shell script and python commands.</p>
+
+<h3 id="motivation">Motivation</h3>
+
+<p>This blog runs on [GitHub pages] using [Jekyll], a static website generator engine. When I conceived of the idea of starting a personal blog about a month ago, I considered various hosting options, such as [Wordpress] or [Wix], but I eventually settled on Jekyll, convinced by its utility as well as customizability. I also considered other options such as [Hugo] or [Gatsby], but decided that Jekyll was more starter-friendly and offered to do things right out of the box.</p>
+
+<p>Jekyll makes use of <code class="language-plaintext highlighter-rouge">.md</code> files to display posts. For the most part, uploading posts is a painless process as markdown files are very easy to create. However, one drawback of using this file format with Jekyll is that embedding images in posts requires me to download and place images in the correct path, namely <code class="language-plaintext highlighter-rouge">assets/images</code> in the GitHub repository. Because most of the images I use are graphs and plots generated from executing blocks of code on Python, this manual reference protocol requires that I follow a rather roundabout routine:</p>
+
+<ul>
+  <li>Write python code on Sublime or PyCharm</li>
+  <li>Call the <code class="language-plaintext highlighter-rouge">plt.savefig()</code> method to save generated figures on local drive</li>
+  <li>Move image file to <code class="language-plaintext highlighter-rouge">assets/images</code> directory</li>
+  <li>Copy and paste relevant code manually onto the <code class="language-plaintext highlighter-rouge">.md</code> file</li>
+  <li>Delete the <code class="language-plaintext highlighter-rouge">plt.savefig()</code> line</li>
+  <li>Reference image file in <code class="language-plaintext highlighter-rouge">assets/images/</code> in <code class="language-plaintext highlighter-rouge">.md</code> file</li>
+</ul>
+
+<p>While this is not a complicated process, it is a time-consuming one indeed, especially if the post gets longer. Another downside of this workflow is that it is prone to human error because most of the steps are performed manually by me. Copy and pasting, writing links, and moving files across different directories are all tasks that require human input. For those reasons, I found the my workflow to be inefficient. Now enters automation and Jupyter Notebooks into the picture.</p>
+
+<h3 id="jupyter-notebook">Jupyter Notebook</h3>
+
+<p>The biggest advantage of using Jupyter Notebooks is that plots and figures are generated on the document directly. In other words, there is no need to write code in one location and copy and paste it to another, neither do I have to save a figure as an image file and link it in the post separately—code, figures, and texts all stay nicely in one package. After all, the whole idea behind Jupyter Notebook is to present information in a readable, accessible fashion. This is why I found Jupyter Notebook to be a very convenient option: it streamlined the process of generating figures and writing explanations for my blog posts, specifically into the following three steps:</p>
+
+<ul>
+  <li>Write Jupyter Notebook</li>
+  <li>Run each code block</li>
+  <li>Save file by generating a checkpoint</li>
+</ul>
+
+<p>And now I’m done! Notice how the complicated, inefficient workflow above has shrunk into three, nice and simple steps. The Jupyter Notebook UI is also highly intuitive, which is why it did not take a lot of time for me to start writing code and generating figures after fidgeting around with some options for a bit.</p>
+
+<p>However, Jupyter Notebook is not without its problems. For one, I had to find a method to integrate Jupyter Notebooks into Jekyll. Jupyter Notebook comes in <code class="language-plaintext highlighter-rouge">.ipynb</code> file format, which is not presentable on GitHub pages by default. This meant that I had to convert Jupyter Notebook into something like <code class="language-plaintext highlighter-rouge">.html</code> or <code class="language-plaintext highlighter-rouge">.md</code>, the two most commonly used file types in Jekyll. Fortunately, I found a command line conversion tool, named <code class="language-plaintext highlighter-rouge">nbconverter</code> that performed this task quite painlessly. After some experimentation, I was able to generate a <code class="language-plaintext highlighter-rouge">.md</code> file of the Jupyter Notebook.</p>
+
+<p>So I should be done, right?</p>
+
+<p>Well, unfortunately not. Examining the end product, I realized two glaring problems. First, the converted file did not include any [YAML front matter]. Basically, all posts on Jekyll include some header that contains information on their title, tag, category, and date information. The converted file, however, did not include this header because it was converted from Jupyter Notebooks which inherently does not have the notion of YAML front matter. This meant that I had to manually type in these information again, which is, to be fair, not such a time consuming process, but nonetheless additional work on my part.</p>
+
+<p>A more serious issue with this conversion was that all the image links were broken. This was certainly bad news: when I compiled and built the website on GitHub, I found that none of the images were properly displayed on the web page. Upon examination, I found that all the dysfunctional links took the following form:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>![png](some_file_name.png)
+</code></pre></div></div>
+
+<p>Proper image links, on the other hand, look like</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;img src="/assets/images/some_file_name.png"&gt;
+</code></pre></div></div>
+
+<p>On a quick side note, those of you who know <code class="language-plaintext highlighter-rouge">.html</code> will easily recognize that this conforms to <code class="language-plaintext highlighter-rouge">.html</code> syntax. Anyhow, to make this work, I realized that I would have to walk through every image link in the converted file and restructure them correctly into standard <code class="language-plaintext highlighter-rouge">.html</code> tag format. This sounded intimidating, but I decided to try it nonetheless. After performing this menial task for some time, however, I concluded that this manual handwork was not the way to go.</p>
+
+<h3 id="automating-with-python">Automating with Python</h3>
+
+<p>This is where the fun part comes in. I decided to implement a simple automation system that would solve all of my problems and worries. Specifically, this script would have to perform the following list of tasks:</p>
+
+<ul>
+  <li>Convert Jupyter Notebook to markdown</li>
+  <li>Add YAML front matter to the converted file</li>
+  <li>Fix broken image links</li>
+  <li>Move the converted file to <code class="language-plaintext highlighter-rouge">_posts</code> directory</li>
+  <li>Move image files to <code class="language-plaintext highlighter-rouge">/assets/images/</code> directory</li>
+</ul>
+
+<p>This might seem a lot to handle, but some simple scripting can do the trick. First, we begin by creating a <code class="language-plaintext highlighter-rouge">.sh</code> script that will form the basis of this automating process. I used the hash bang <code class="language-plaintext highlighter-rouge">#!/bin/sh</code> to make this an executable. The script itself is very short—it goes as follows.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nb=$1
+
+function convert(){
+	jupyter nbconvert --to markdown $nb
+	python edit.py ${nb%.ipynb}.md
+	mv ${nb%.ipynb}.md ../_posts/
+	mv ${nb%.ipynb}_files ../assets/images/
+	echo "==========Conversion complete!=========="
+}
+
+convert
+</code></pre></div></div>
+
+<p>The first line of the function invokes a <code class="language-plaintext highlighter-rouge">nbconvert</code> command, the result of which is the creation of a <code class="language-plaintext highlighter-rouge">.md</code> converted file. Then, the script runs another a Python script, but I will get more into that in a second. After Python does its portion of the work, I use two <code class="language-plaintext highlighter-rouge">mv</code> commands to move the <code class="language-plaintext highlighter-rouge">.md</code> file to the <code class="language-plaintext highlighter-rouge">_posts</code> directory and the associated image files to the <code class="language-plaintext highlighter-rouge">/assets/images/</code> directory, as specified above. Then, the script echoes a short message to tell the user that the process is complete. Pretty simple, yet it does its trick quite nicely.</p>
+
+<p>Now onto the Python part. If you take a look back at the task list delineated above, you will see that there are two bullet point that has not been ticked off by the <code class="language-plaintext highlighter-rouge">convert.sh</code> script: adding YAML front matter and fixing broken image links—and that is exactly what our <code class="language-plaintext highlighter-rouge">edit.py</code> script will do! Let’s take a look at the code:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="p">,</span> <span class="n">re</span>
+
+<span class="k">def</span> <span class="nf">edit</span><span class="p">():</span>
+	<span class="n">path</span> <span class="o">=</span> <span class="s">"/Users/jaketae/Documents/GitHub/jaketae.github.io/_jupyter/"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+	<span class="n">yaml</span> <span class="o">=</span> <span class="s">"---</span><span class="se">\n</span><span class="s">title: TITLE</span><span class="se">\n</span><span class="s">mathjax: true</span><span class="se">\n</span><span class="s">categories:</span><span class="se">\n</span><span class="s">  - category</span><span class="se">\n</span><span class="s">tags:</span><span class="se">\n</span><span class="s">  - tag</span><span class="se">\n</span><span class="s">---</span><span class="se">\n\n</span><span class="s">"</span>
+	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+		<span class="n">filedata</span> <span class="o">=</span> <span class="nb">file</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
+	<span class="n">filedata</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s">"!\[png\]\("</span><span class="p">,</span> <span class="s">"&lt;img src=</span><span class="se">\"</span><span class="s">/assets/images/"</span><span class="p">,</span> <span class="n">filedata</span><span class="p">)</span>
+	<span class="n">filedata</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">sub</span><span class="p">(</span><span class="s">".png\)"</span><span class="p">,</span> <span class="s">".png</span><span class="se">\"</span><span class="s">&gt;"</span><span class="p">,</span> <span class="n">filedata</span><span class="p">)</span>
+	<span class="n">filedata</span> <span class="o">=</span> <span class="n">yaml</span> <span class="o">+</span> <span class="n">filedata</span>
+	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+		<span class="nb">file</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">filedata</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+	<span class="n">edit</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>In a nutshell, the script opens and reads the converted <code class="language-plaintext highlighter-rouge">.md</code> file, finds and replaces broken image links with correct ones, and adds the default YAML front matter, defined as the string <code class="language-plaintext highlighter-rouge">yaml</code> in the code above. When all the necessary edits are performed, the script then rewrites the <code class="language-plaintext highlighter-rouge">.md</code> file with the edited content.</p>
+
+<p>This script works fine, but I feel like all of this might have been implemented a lot more efficiently if I were proficient with regular expressions. The task of locating and editing broken image links into <code class="language-plaintext highlighter-rouge">html</code> tags is a classic <code class="language-plaintext highlighter-rouge">regexp</code> problem, but my knowledge of Python and regular expressions were not quite enough to implement the most efficient mechanism to tackle this problem. Nonetheless, my solution still produces the desired result, which is why I am very content with my first attempt at automation with Python and script.</p>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>Now, I have a completely revised workflow that suits my purposes the best: Jupyter Notebooks to write code and generate figures alongside text explanations, and an automation system that converts these Jupyter Notebooks to markdown efficiently. All I have to do is to edit the default YAML front matter, such as coming up with good titles and categorizing my post to appropriate categories.</p>
+
+<p>This automation script is by no means perfect, which is why I plan on incremental updates as I go. Specifically, I might add additional features, such as the ability to auto-generate figure captions. I might also streamline the process of find and replace that occurs within the Python script after learning more about regular expressions. But for now, the project seems solid as it is, and I am happy with what I have.</p>
+
+<p>Having completed this little script, I am thinking of starting another automation project that will help me with my work at the PMO. This is going to be a much tougher challenge that involves reading in <code class="language-plaintext highlighter-rouge">.pdf</code> files and outputting <code class="language-plaintext highlighter-rouge">.xlsx</code> files, but hopefully I can streamline my workflow at the office with Python’s help. I am excited to see where this project will go, and I will definitely keep this posted. In the meanwhile, happy thanksgiving!</p>
+
+<p class="post-footer">Thanks for reading! <img src="/assets/images/assets/mo-144x144-white.png" alt="MO" /></p>]]></content><author><name>Michiel Oppenheimer</name></author><category term="python" /><category term="jupyter" /><category term="jekyll" /><summary type="html"><![CDATA[Jupyter notebook automation with python.]]></summary></entry><entry><title type="html">Why Is This Not Working Properly</title><link href="http://localhost:4000/2022/08/19/why-is-this-not-working-properly/" rel="alternate" type="text/html" title="Why Is This Not Working Properly" /><published>2022-08-19T00:00:00+01:00</published><updated>2022-08-19T00:00:00+01:00</updated><id>http://localhost:4000/2022/08/19/why-is-this-not-working-properly</id><content type="html" xml:base="http://localhost:4000/2022/08/19/why-is-this-not-working-properly/"><![CDATA[<p>In the last post, I tested out the functionality of Jupyter Notebook, a platform that I am just starting to get acquainted with. I’m pleased with how that experimental post turned out, although there are still things to modify and improve.</p>
+
+<h3 id="using-jupyter-notebook-with-jekyll">Using Jupyter Notebook with Jekyll</h3>
+
+<p>In the last post, I tested out the functionality of Jupyter Notebook, a platform that I am just starting to get acquainted with. I’m pleased with how that experimental post turned out, although there are still things to modify and improve. In this post, I explain how I was able to automate the process of converting Jupyter Notebook into markdown using shell script and python commands.</p>
+
+<p class="post-footer">Thanks for reading! <img src="/assets/images/assets/mo-144x144-white.png" alt="MO" /></p>]]></content><author><name>Michiel Oppenheimer</name></author><category term="python" /><category term="maths" /><category term="jekyll" /><summary type="html"><![CDATA[Using Jupyter Notebook with Jekyll.]]></summary></entry><entry><title type="html">Bananas</title><link href="http://localhost:4000/2022/08/14/bananas/" rel="alternate" type="text/html" title="Bananas" /><published>2022-08-14T00:00:00+01:00</published><updated>2022-08-14T00:00:00+01:00</updated><id>http://localhost:4000/2022/08/14/bananas</id><content type="html" xml:base="http://localhost:4000/2022/08/14/bananas/"><![CDATA[<p>A banana is an edible fruit – botanically a berry – produced by several kinds
+of large herbaceous flowering plants in the genus Musa.</p>
+
+<p>In some countries, bananas used for cooking may be called “plantains”,
+distinguishing them from dessert bananas. The fruit is variable in size, color,
+and firmness, but is usually elongated and curved, with soft flesh rich in
+starch covered with a rind, which may be green, yellow, red, purple, or brown
+when ripe.</p>
+
+<p class="post-footer">Thanks for reading! <img src="/assets/images/assets/mo-144x144-white.png" alt="MO" /></p>]]></content><author><name>Michiel Oppenheimer</name></author><category term="python" /><category term="maths" /><category term="fruit" /><category term="banana" /><summary type="html"><![CDATA[A banana is an edible fruit – botanically a berry – produced by several kinds of large herbaceous flowering plants in the genus Musa.]]></summary></entry><entry><title type="html">Code Highlighting With Rouge Highlight Tag</title><link href="http://localhost:4000/2022/08/14/code-highlighting-with-rouge-highlight-tag/" rel="alternate" type="text/html" title="Code Highlighting With Rouge Highlight Tag" /><published>2022-08-14T00:00:00+01:00</published><updated>2022-08-14T00:00:00+01:00</updated><id>http://localhost:4000/2022/08/14/code-highlighting-with-rouge-highlight-tag</id><content type="html" xml:base="http://localhost:4000/2022/08/14/code-highlighting-with-rouge-highlight-tag/"><![CDATA[<div class="post-image">
+    <img src="/assets/images/row-elechon-form.jpg" alt="Row elechon form cover photo" />
+</div>
+
+<p>To make my code snippets more readable i’m using <a href="https://github.com/rouge-ruby/rouge">Rouge</a>Rouge highlighter,
+which is Jekyll’s default syntax highlighter.  You only need to run this command to get running:</p>
+
+<p><code class="language-plaintext highlighter-rouge">gem install kramdown rouge</code></p>
+
+<p>To use, just surround your code snipped with <code class="language-plaintext highlighter-rouge">{% highlight language %}</code> and  <code class="language-plaintext highlighter-rouge">{% endhighlight %}</code>.</p>
+
+<p><em>Remembering to replace the languageCode with your code language</em>.  For more help,<br />
+<a href="https://github.com/rouge-ruby/rouge/wiki/List-of-supported-languages-and-lexers">have a look here</a> for the list of 
+supported languages.</p>
+
+<h3 id="example">Example</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import numpy as np
+np.random.seed(27)
+A = np.random.randint(1,10,size = (3,3))
+B = np.random.randint(1,10,size = (3,2))
+print(f"Matrix A:\n {A}\n")
+print(f"Matrix B:\n {B}\n")
+</code></pre></div></div>
+
+<p class="post-footer">Thanks for reading! <img src="/assets/images/assets/mo-144x144-white.png" alt="MO" /></p>]]></content><author><name>Michiel Oppenheimer</name></author><category term="python" /><category term="maths" /><category term="fruit" /><category term="banana" /><summary type="html"><![CDATA[A banana is an edible fruit – botanically a berry – produced by several kinds of large herbaceous flowering plants in the genus Musa.]]></summary></entry><entry><title type="html">Intermediate Results With The Walrus Operator</title><link href="http://localhost:4000/2022/08/09/intermediate-results-with-the-walrus-operator/" rel="alternate" type="text/html" title="Intermediate Results With The Walrus Operator" /><published>2022-08-09T00:00:00+01:00</published><updated>2022-08-09T00:00:00+01:00</updated><id>http://localhost:4000/2022/08/09/intermediate-results-with-the-walrus-operator</id><content type="html" xml:base="http://localhost:4000/2022/08/09/intermediate-results-with-the-walrus-operator/"><![CDATA[<p>Intermediate results with the walrus operator</p>
+
+<p>Sometime we’ll have a complex condition where we want to preserve an expensive intermediate result for later use.  Imagine a condition that involves a complex calculation; the cost of computing is high measured in time, or input-output, or memory, or network resource use.  Resource use defines the cost of computation.</p>
+
+<p>This is an example where it cane be helpful to assign a name to the value or an expression.  We’ll look at how to use the “assignment expression” or “walrus” operator.  It’s called the walrus because the assignment expression operator, <code class="language-plaintext highlighter-rouge">:=</code>, looks lie the face of a walrus to some people.</p>
+
+<p>\[ x = {-b \pm \sqrt{b^2-4ac} \over 2a} \]</p>
+
+<p>Row-Echelon Form and Back-Subsitution</p>
+
+<p>The method of elimination can be applied to a system of linear equations in more than two variables.  In fact, this method easily adapts to computer use for solving linear systems with dozens of variables.</p>
+
+<p>When elimination is used to solve a system of linear equations, the goal is to rewrite the system in a form to which back-substitution can be applies.  To see how this works, consider the following two systems of linear equations.</p>
+
+\[\begin{cases} 
+x &amp; - &amp; 2y &amp; + &amp; 3z &amp; = &amp; 9\\\ 
+&amp; &amp; y &amp; + &amp; 3z &amp; = &amp; 5\\\ 
+&amp; &amp; &amp; &amp; z &amp; = &amp; 2 
+\end{cases}\]
+
+<p>The second system is said to be in <strong><em>row-echelon form</em></strong>, which means that it has a “stair-step” pattern with leading coefficients of 1.  After comparing the two systems, it should be clear that it is easier to solve the second system.</p>
+
+<p class="post-footer">Thanks for reading! <img src="/assets/images/assets/mo-144x144-white.png" alt="MO" /></p>]]></content><author><name>Michiel Oppenheimer</name></author><category term="python" /><category term="maths" /><summary type="html"><![CDATA[Intermediate results with the walrus operator.]]></summary></entry><entry><title type="html">Using Named Tuples To Simplify Item Access</title><link href="http://localhost:4000/2022/08/01/using-named-tuples-to-simplify-item-access/" rel="alternate" type="text/html" title="Using Named Tuples To Simplify Item Access" /><published>2022-08-01T00:00:00+01:00</published><updated>2022-08-01T00:00:00+01:00</updated><id>http://localhost:4000/2022/08/01/using-named-tuples-to-simplify-item-access</id><content type="html" xml:base="http://localhost:4000/2022/08/01/using-named-tuples-to-simplify-item-access/"><![CDATA[<p>Here we’ll look at using named tuples to simplfy item access in python.</p>
+
+<p>Let’s continue looking at items in recipes.  The regular expression for parsing the string had three attributes:</p>
+
+<ol>
+  <li>ingredient</li>
+  <li>amount</li>
+  <li>unit</li>
+</ol>
+
+<p>We used the following pattern with names for the various substrings::</p>
+
+<pre><code class="language-python">
+#   rename image to that of the post slug
+#   https://stackoverflow.com/questions/51570254/django-change-name-of-image-from-imagefield
+def rename_image(instance, filename):
+    filebase, extension = filename.split('.')
+    return 'images/%s.%s' % (instance.slug, extension)
+
+class PublishedManager(models.Manager):
+    def get_queryset(self):
+        return super(PublishedManager, self).get_queryset().filter(status='published')
+</code></pre>
+
+<p>The resulting data tuple looked like this:</p>
+
+<pre><code class="language-python">
+&gt;&gt;&gt; item = match.groups()
+('Kumquat', '2', 'cups')
+</code></pre>
+
+<p>While the matching between <em>ingredient, amount,</em> and <em>unit</em> is pretty clear, using something like the following isn’t ideal.  What does  <strong>“1”</strong> mean?  Is it really the quantity?</p>
+
+<pre><code class="language-python">
+&gt;&gt;&gt;Fraction(item[1])
+Fraction(2, 1)
+</code></pre>
+
+<p>We want to define tuples with names, as well as positions</p>
+
+<pre><code class="language-plaintext">
+Just some plain old text here
+</code></pre>
+
+<p class="post-footer">Thanks for reading! <img src="/assets/images/assets/mo-144x144-white.png" alt="MO" /></p>]]></content><author><name>Michiel Oppenheimer</name></author><category term="python" /><summary type="html"><![CDATA[using named tuples to simplfy item access in python.]]></summary></entry><entry><title type="html">Monte Carlo Coin Toss</title><link href="http://localhost:4000/2022/07/23/monte-carlo-coin-toss/" rel="alternate" type="text/html" title="Monte Carlo Coin Toss" /><published>2022-07-23T00:00:00+01:00</published><updated>2022-07-23T00:00:00+01:00</updated><id>http://localhost:4000/2022/07/23/monte-carlo-coin-toss</id><content type="html" xml:base="http://localhost:4000/2022/07/23/monte-carlo-coin-toss/"><![CDATA[<p>While mindlessly browsing through <a href="https://math.stackexchange.com/questions/364038/expected-number-of-coin-tosses-to-get-five-consecutive-heads">Math Stack Exchange</a>, I stumbled across an interesting classic:</p>
+
+<blockquote>
+  <p>What is the expected number of coin tosses needed to get 5 consecutive heads?</p>
+</blockquote>
+
+<p>This very short post is going to be an admittedly rough presentation of my attempt at solving this puzzle.</p>
+
+<p>The first thing that came to my mind was using a bit of recursion-esque thought. Generalizing the problem to be a question on $n$ consecutive heads, let’s assume that we know the number of expected number of tosses needed to obtain $(n - 1)$ consecutive heads. Let’s denote this as $\mathbb{E}_{n - 1} = k$. Then, our goal is to figure out $\mathbb{E}_n$.</p>
+
+<p>It can be seen that</p>
+
+\[\mathbb{E}_n = \frac12 \left( \mathbb{E}_{n - 1} + 1 \right) + \frac12 \left( \mathbb{E}_{n - 1} + 1 + \mathbb{E}_n \right)
+\tag{1}\]
+
+<p>We can think about the two possibilities after successfully having landed on $(n - 1)$ consecutive heads: either the next toss also lands on heads, or it lands on tails. If it lands on heads, then we have accomplished $n$ consecutive heads, and this is accounted for by the first term.</p>
+
+<p>The trickier part is the second term, which engages with the case in which the next coin toss lands on tails. In that case, the game is essentially “reverted back to ground zero” in the sense that the coin tosses we have made so far do not matter any more: even if we made it up until $(n - 1)$ consecutive heads, it doesn’t matter if we don’t make it until $n$ consecutive ones. Therefore, we get a recursive term including an $\mathbb{E}_n$.</p>
+
+<p>With some manipulation, (1) simplifies into</p>
+
+\[\mathbb{E}_n = \mathbb{E}_{n - 1} + \frac12 \mathbb{E}_n + 1 \tag{2}\]
+
+<p>which means</p>
+
+\[\mathbb{E}_n = 2 \mathbb{E}_{n - 1} + 2 \tag{3}\]
+
+<p>This is quite a neat solution, but it is somewhat incomplete since we have no way of obtaining a hard value for $\mathbb{E}_n$ given some $n \in \mathbb{N}$. We thus need to hash out this recurrence relation.</p>
+
+<p>We can easily derive a fully hashed out expression for $\mathbb{E}_n$ by starting with small numbers, such a when $n$ is 0, 1, 2, and 3.</p>
+
+\[\mathbb{E}_0 = 0 \\
+\mathbb{E}_1 = 2 \\
+\mathbb{E}_2 = 4 + 2 = 6 \\
+\mathbb{E}_3 = 12 + 2 = 14 \\\]
+
+<p>The pattern may not be immediately obvious, but if we try to expand out the terms in our head starting from $\mathbb{E}_2$, it can be seen that we end up doing something like</p>
+
+\[2^n + 2^{n - 1} + 2^{n - 2} + \cdots + 2\]
+
+<p>which can be rearranged as</p>
+
+\[2(2^{n - 1} + 2^{n - 2} + \cdots + 1) = 2(2^n- 1) \tag{4}\]
+
+<p>I won’t pretend like I solved this correctly in one go. While I had the right idea, I actually started off with a wrong equation for (1) at first. Specifically, in the second term where the recursion takes place, I was missing 1, fallaciously thinking that the failed first attempt would be counted as part of the new game. This is incorrect because the first failed attempt has already occurred; and at the point in which it has already occurred, that failed try would not count into the expected toss count for the $n$ consecutive heads.</p>
+
+<p>Just for the fun of it, I decided to write a simple Python simulator to verify this analytical solution with some Monte Carlo approximation. And indeed, the results are promising.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">random</span>
+
+
+<span class="k">def</span> <span class="nf">analytic_solve</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="mi">2</span> <span class="o">**</span> <span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">simulate</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">num_simul</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+    <span class="n">counts</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_simul</span><span class="p">):</span>
+        <span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">consec</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">while</span> <span class="n">consec</span> <span class="o">!=</span> <span class="n">n</span><span class="p">:</span>
+            <span class="n">is_head</span> <span class="o">=</span> <span class="n">random</span><span class="p">.</span><span class="n">random</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mf">0.5</span>
+            <span class="k">if</span> <span class="n">is_head</span><span class="p">:</span>
+                <span class="n">consec</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">consec</span> <span class="o">=</span> <span class="mi">0</span>
+            <span class="n">count</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">counts</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">count</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">counts</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">simulate</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>61.549
+</code></pre></div></div>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">analytic_solve</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+</code></pre></div></div>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>62
+</code></pre></div></div>
+
+<p>In this particular instance with <code class="language-plaintext highlighter-rouge">n</code> at 5 and <code class="language-plaintext highlighter-rouge">num_simul</code> set to 1000, we get a very good result. This made me wonder whether the accuracy of this measurement has anything to do with the magnitude of <code class="language-plaintext highlighter-rouge">n</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="n">plt</span>
+
+<span class="n">t</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+<span class="n">simul_vals</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">analytic_vals</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
+    <span class="n">simul_vals</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">simulate</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+    <span class="n">analytic_vals</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">analytic_solve</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">simul_vals</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">analytic_vals</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/2020-11-23-coin-toss_files/2020-11-23-coin-toss_17_0.png" /></p>
+
+<p>It seems like there is no substantial difference. However, we see to see some divergence between the two as if we increase the <code class="language-plaintext highlighter-rouge">n</code> and decrease <code class="language-plaintext highlighter-rouge">num_simul</code>.</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="n">t</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">25</span><span class="p">)</span>
+<span class="n">simul_vals</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">analytic_vals</span> <span class="o">=</span> <span class="p">[]</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">t</span><span class="p">:</span>
+    <span class="n">simul_vals</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">simulate</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="mi">10</span><span class="p">))</span>
+    <span class="n">analytic_vals</span><span class="p">.</span><span class="n">append</span><span class="p">(</span><span class="n">analytic_solve</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+
+<span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="p">.</span><span class="n">subplots</span><span class="p">()</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">simul_vals</span><span class="p">)</span>
+<span class="n">ax</span><span class="p">.</span><span class="n">plot</span><span class="p">(</span><span class="n">t</span><span class="p">,</span> <span class="n">analytic_vals</span><span class="p">)</span>
+<span class="n">plt</span><span class="p">.</span><span class="n">show</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p><img src="/assets/images/2020-11-23-coin-toss_files/2020-11-23-coin-toss_19_0.png" /></p>
+
+<p>This result makes intuitive sense since, after all, the accuracy of this Monte Carlo experiment depends on <code class="language-plaintext highlighter-rouge">num_simul</code>; the higher this number, the more accurate the quantity will be. Also, if we increase <code class="language-plaintext highlighter-rouge">n</code>, things get more unpredictable; it is easy to “fail” and restart all over again, or potentially get lucky. In the graph shown above, we got lucky, which is why the values derived from the simulation lags below that of the analytic estimate.</p>
+
+<p>This was a fairly simple yet interesting brain teaser that got me thinking more about math. It was very rewarding to see my little Monte Carlo simulator work its way through the problem. Hopefully I can do a bit more of something like this in the future.</p>
+
+<p>I hope you’ve enjoyed reading this post. Catch you up in the next one!</p>
+
+<p class="post-footer">Thanks for reading! <img src="/assets/images/assets/mo-144x144-white.png" alt="MO" /></p>]]></content><author><name>Michiel Oppenheimer</name></author><category term="monte_carlo_simulation" /><category term="python" /><category term="maths" /><summary type="html"><![CDATA[Rough presentation of my attempt at solving the question - What is the expected number of coin tosses needed to get 5 consecutive heads?.]]></summary></entry></feed>

@@ -1,0 +1,432 @@
+<!doctype html>
+<html>
+
+    <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>
+        
+          Home &middot; Michiel Oppenheimer
+        
+      </title>
+    <!-- Fonts -->  
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,200;0,300;0,400;0,500;0,700;1,300&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/styles/a11y-dark.min.css" integrity="sha512-Vj6gPCk8EZlqnoveEyuGyYaWZ1+jyjMPg8g4shwyyNlRQl6d3L9At02ZHQr5K6s5duZl/+YKMnM3/8pDhoUphg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@48,400,0,0" />
+    <!-- CSS -->
+    <link rel="stylesheet" href='/assets/css/styles.css'>
+      <!-- Icons -->
+  <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/assets/images/assets/mo-144x144.png">
+  <link rel="shortcut icon" href="/assets/images/assets/favicon.ico">
+  <link type="application/atom+xml" rel="alternate" href="http://localhost:4000/feed.xml" title="Michiel Oppenheimer" />
+  <!-- Begin Jekyll SEO tag v2.8.0 -->
+<title>Home | Michiel Oppenheimer</title>
+<meta name="generator" content="Jekyll v4.2.2" />
+<meta property="og:title" content="Home" />
+<meta name="author" content="Michiel Oppenheimer" />
+<meta property="og:locale" content="en_US" />
+<meta name="description" content="…Just wheeling my way through life, science, and code…" />
+<meta property="og:description" content="…Just wheeling my way through life, science, and code…" />
+<link rel="canonical" href="http://localhost:4000/" />
+<meta property="og:url" content="http://localhost:4000/" />
+<meta property="og:site_name" content="Michiel Oppenheimer" />
+<meta property="og:type" content="website" />
+<link rel="next" href="http://localhost:4000/page2" />
+<meta name="twitter:card" content="summary" />
+<meta property="twitter:title" content="Home" />
+<script type="application/ld+json">
+{"@context":"https://schema.org","@type":"WebSite","author":{"@type":"Person","name":"Michiel Oppenheimer"},"description":"…Just wheeling my way through life, science, and code…","headline":"Home","name":"Michiel Oppenheimer","url":"http://localhost:4000/"}</script>
+<!-- End Jekyll SEO tag -->
+
+</head>
+
+  <body class="dark-theme">
+    <!-- app starts -->
+    <div id="app">
+      <!-- content-wrap starts -->
+      <div class="content-wrap">
+        <!-- sidebar starts -->
+<aside class="sidebar">
+        <div class="sidebar-contain">
+            <div class="sidebar-sticky">
+                <!-- sidebar-column starts -->
+                <div class="sidebar-column">
+                    <div class="meta-title">
+                        <h1 class="h1 ">Michiel Oppenheimer</h1>
+                        <p class="meta-tagline">
+                            ...Just wheeling my way through <br>life, science, and code...
+                        </p>            
+                    </div>
+        
+                    <ul class="meta-links">
+
+                        <li class="meta-link-item">
+                            <a href="/"  class="active"; >Home</a>
+                          </li>
+
+                        <li class="meta-link-item">
+                            <a href="/categories" >
+                                Categories
+                            </a>
+                        </li>
+                        <li class="meta-link-item">
+                            <a href="/" >
+                                Tags
+                            </a>
+                        </li>
+                        <li class="meta-link-item">
+                            <a href="/about" >
+                                About
+                              </a>
+                        </li>
+                        <li class="meta-link-item">
+                            <a href="/" >
+                                Archives
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- sidebar-column ends -->
+            </div>
+        </div>
+        
+</aside>
+<!-- sidebar ends -->
+        
+        <main>
+          <div class="main-wrap">
+            <div class="main-contenr">
+              <!-- container starts -->
+<div class="container">
+    <!-- posts starts -->
+    <div class="posts">
+        <!-- Pined posts -->
+        
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+            
+          
+        
+      
+        <!-- Normal posts listed in the order of time -->
+      
+        
+            <div class="post">
+                <div class="post-contain">
+                    <h1><a class="h1" href="/2022/08/27/jupyter-automation/">Jupyter Automation</a></h1>
+            
+                    <span class="post-tags">
+                        [&nbsp;
+                        
+                            
+                            <a href="/tag/python">
+                                <span> # </span>python&nbsp;
+                            </a>    
+                        
+                            
+                            <a href="/tag/jupyter">
+                                <span> # </span>jupyter&nbsp;
+                            </a>    
+                        
+                            
+                            <a href="/tag/jekyll">
+                                <span> # </span>jekyll&nbsp;
+                            </a>    
+                        
+                        &nbsp;]
+                    </span>
+                
+                    <span class="post-date">27 Aug 2022</span>
+                
+                    <p>In the [last post], I tested out the functionality of [Jupyter Notebook], a platform that I am just starting to get acquainted with. I’m pleased with how that experimental post turned out, although there are still things to modify and improve. In this post, I explain how I was able to automate the process of converting Jupyter Notebook into markdown using shell script and python commands.</p>
+
+<h3 id="motivation">Motivation</h3>
+
+<p>This blog runs on [GitHub pages] using [Jekyll], a static website generator engine. When I conceived of the idea of starting a personal blog about a month ago, I considered various hosting options, such as [Wordpress] or [Wix], but I eventually settled on Jekyll, convinced by its utility as well as customizability. I also considered other options such as [Hugo] or [Gatsby], but decided that Jekyll was more starter-friendly and offered to do things right out of the box.</p>
+
+<p>Jekyll makes use of <code class="language-plaintext highlighter-rouge">.md</code> files to display posts. For the most part, uploading posts is a painless process as markdown files are very easy to create. However, one drawback of using this file format with Jekyll is that embedding images in posts requires me to download and place images in the correct path, namely <code class="language-plaintext highlighter-rouge">assets/images</code> in the GitHub repository. Because most of the images I use are graphs and plots generated from executing blocks of code on Python, this manual reference protocol requires that I follow a rather roundabout routine:</p>
+
+<ul>
+  <li>Write python code on Sublime or PyCharm</li>
+  <li>Call the <code class="language-plaintext highlighter-rouge">plt.savefig()</code> method to save generated figures on local drive</li>
+  <li>Move image file to <code class="language-plaintext highlighter-rouge">assets/images</code> directory</li>
+  <li>Copy and paste relevant code manually onto the <code class="language-plaintext highlighter-rouge">.md</code> file</li>
+  <li>Delete the <code class="language-plaintext highlighter-rouge">plt.savefig()</code> line</li>
+  <li>Reference image file in <code class="language-plaintext highlighter-rouge">assets/images/</code> in <code class="language-plaintext highlighter-rouge">.md</code> file</li>
+</ul>
+
+<p>While this is not a complicated process, it is a time-consuming one indeed, especially if the post gets longer. Another downside of this workflow is that it is prone to human error because most of the steps are performed manually by me. Copy and pasting, writing links, and moving files across different directories are all tasks that require human input. For those reasons, I found the my workflow to be inefficient. Now enters automation and Jupyter Notebooks into the picture.</p>
+
+<h3 id="jupyter-notebook">Jupyter Notebook</h3>
+
+<p>The biggest advantage of using Jupyter Notebooks is that plots and figures are generated on the document directly. In other words, there is no need to write code in one location and copy and paste it to another, neither do I have to save a figure as an image file and link it in the post separately—code, figures, and texts all stay nicely in one package. After all, the whole idea behind Jupyter Notebook is to present information in a readable, accessible fashion. This is why I found Jupyter Notebook to be a very convenient option: it streamlined the process of generating figures and writing explanations for my blog posts, specifically into the following three steps:</p>
+
+<ul>
+  <li>Write Jupyter Notebook</li>
+  <li>Run each code block</li>
+  <li>Save file by generating a checkpoint</li>
+</ul>
+
+<p>And now I’m done! Notice how the complicated, inefficient workflow above has shrunk into three, nice and simple steps. The Jupyter Notebook UI is also highly intuitive, which is why it did not take a lot of time for me to start writing code and generating figures after fidgeting around with some options for a bit.</p>
+
+<p>However, Jupyter Notebook is not without its problems. For one, I had to find a method to integrate Jupyter Notebooks into Jekyll. Jupyter Notebook comes in <code class="language-plaintext highlighter-rouge">.ipynb</code> file format, which is not presentable on GitHub pages by default. This meant that I had to convert Jupyter Notebook into something like <code class="language-plaintext highlighter-rouge">.html</code> or <code class="language-plaintext highlighter-rouge">.md</code>, the two most commonly used file types in Jekyll. Fortunately, I found a command line conversion tool, named <code class="language-plaintext highlighter-rouge">nbconverter</code> that performed this task quite painlessly. After some experimentation, I was able to generate a <code class="language-plaintext highlighter-rouge">.md</code> file of the Jupyter Notebook.</p>
+
+<p>So I should be done, right?</p>
+
+<p>Well, unfortunately not. Examining the end product, I realized two glaring problems. First, the converted file did not include any [YAML front matter]. Basically, all posts on Jekyll include some header that contains information on their title, tag, category, and date information. The converted file, however, did not include this header because it was converted from Jupyter Notebooks which inherently does not have the notion of YAML front matter. This meant that I had to manually type in these information again, which is, to be fair, not such a time consuming process, but nonetheless additional work on my part.</p>
+
+<p>A more serious issue with this conversion was that all the image links were broken. This was certainly bad news: when I compiled and built the website on GitHub, I found that none of the images were properly displayed on the web page. Upon examination, I found that all the dysfunctional links took the following form:</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>![png](some_file_name.png)
+</code></pre></div></div>
+
+<p>Proper image links, on the other hand, look like</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>&lt;img src="/assets/images/some_file_name.png"&gt;
+</code></pre></div></div>
+
+<p>On a quick side note, those of you who know <code class="language-plaintext highlighter-rouge">.html</code> will easily recognize that this conforms to <code class="language-plaintext highlighter-rouge">.html</code> syntax. Anyhow, to make this work, I realized that I would have to walk through every image link in the converted file and restructure them correctly into standard <code class="language-plaintext highlighter-rouge">.html</code> tag format. This sounded intimidating, but I decided to try it nonetheless. After performing this menial task for some time, however, I concluded that this manual handwork was not the way to go.</p>
+
+<h3 id="automating-with-python">Automating with Python</h3>
+
+<p>This is where the fun part comes in. I decided to implement a simple automation system that would solve all of my problems and worries. Specifically, this script would have to perform the following list of tasks:</p>
+
+<ul>
+  <li>Convert Jupyter Notebook to markdown</li>
+  <li>Add YAML front matter to the converted file</li>
+  <li>Fix broken image links</li>
+  <li>Move the converted file to <code class="language-plaintext highlighter-rouge">_posts</code> directory</li>
+  <li>Move image files to <code class="language-plaintext highlighter-rouge">/assets/images/</code> directory</li>
+</ul>
+
+<p>This might seem a lot to handle, but some simple scripting can do the trick. First, we begin by creating a <code class="language-plaintext highlighter-rouge">.sh</code> script that will form the basis of this automating process. I used the hash bang <code class="language-plaintext highlighter-rouge">#!/bin/sh</code> to make this an executable. The script itself is very short—it goes as follows.</p>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>nb=$1
+
+function convert(){
+	jupyter nbconvert --to markdown $nb
+	python edit.py ${nb%.ipynb}.md
+	mv ${nb%.ipynb}.md ../_posts/
+	mv ${nb%.ipynb}_files ../assets/images/
+	echo "==========Conversion complete!=========="
+}
+
+convert
+</code></pre></div></div>
+
+<p>The first line of the function invokes a <code class="language-plaintext highlighter-rouge">nbconvert</code> command, the result of which is the creation of a <code class="language-plaintext highlighter-rouge">.md</code> converted file. Then, the script runs another a Python script, but I will get more into that in a second. After Python does its portion of the work, I use two <code class="language-plaintext highlighter-rouge">mv</code> commands to move the <code class="language-plaintext highlighter-rouge">.md</code> file to the <code class="language-plaintext highlighter-rouge">_posts</code> directory and the associated image files to the <code class="language-plaintext highlighter-rouge">/assets/images/</code> directory, as specified above. Then, the script echoes a short message to tell the user that the process is complete. Pretty simple, yet it does its trick quite nicely.</p>
+
+<p>Now onto the Python part. If you take a look back at the task list delineated above, you will see that there are two bullet point that has not been ticked off by the <code class="language-plaintext highlighter-rouge">convert.sh</code> script: adding YAML front matter and fixing broken image links—and that is exactly what our <code class="language-plaintext highlighter-rouge">edit.py</code> script will do! Let’s take a look at the code:</p>
+
+<div class="language-python highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="c1">#!/usr/bin/python
+</span>
+<span class="kn">import</span> <span class="nn">sys</span><span class="p">,</span> <span class="n">re</span>
+
+<span class="k">def</span> <span class="nf">edit</span><span class="p">():</span>
+	<span class="n">path</span> <span class="o">=</span> <span class="s">"/Users/jaketae/Documents/GitHub/jaketae.github.io/_jupyter/"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">sys</span><span class="p">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+	<span class="n">yaml</span> <span class="o">=</span> <span class="s">"---</span><span class="se">\n</span><span class="s">title: TITLE</span><span class="se">\n</span><span class="s">mathjax: true</span><span class="se">\n</span><span class="s">categories:</span><span class="se">\n</span><span class="s">  - category</span><span class="se">\n</span><span class="s">tags:</span><span class="se">\n</span><span class="s">  - tag</span><span class="se">\n</span><span class="s">---</span><span class="se">\n\n</span><span class="s">"</span>
+	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">'r'</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+		<span class="n">filedata</span> <span class="o">=</span> <span class="nb">file</span><span class="p">.</span><span class="n">read</span><span class="p">()</span>
+	<span class="n">filedata</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s">"!\[png\]\("</span><span class="p">,</span> <span class="s">"&lt;img src=</span><span class="se">\"</span><span class="s">/assets/images/"</span><span class="p">,</span> <span class="n">filedata</span><span class="p">)</span>
+	<span class="n">filedata</span> <span class="o">=</span> <span class="n">re</span><span class="p">.</span><span class="n">sub</span><span class="p">(</span><span class="s">".png\)"</span><span class="p">,</span> <span class="s">".png</span><span class="se">\"</span><span class="s">&gt;"</span><span class="p">,</span> <span class="n">filedata</span><span class="p">)</span>
+	<span class="n">filedata</span> <span class="o">=</span> <span class="n">yaml</span> <span class="o">+</span> <span class="n">filedata</span>
+	<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="s">'w'</span><span class="p">)</span> <span class="k">as</span> <span class="nb">file</span><span class="p">:</span>
+		<span class="nb">file</span><span class="p">.</span><span class="n">write</span><span class="p">(</span><span class="n">filedata</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s">'__main__'</span><span class="p">:</span>
+	<span class="n">edit</span><span class="p">()</span>
+</code></pre></div></div>
+
+<p>In a nutshell, the script opens and reads the converted <code class="language-plaintext highlighter-rouge">.md</code> file, finds and replaces broken image links with correct ones, and adds the default YAML front matter, defined as the string <code class="language-plaintext highlighter-rouge">yaml</code> in the code above. When all the necessary edits are performed, the script then rewrites the <code class="language-plaintext highlighter-rouge">.md</code> file with the edited content.</p>
+
+<p>This script works fine, but I feel like all of this might have been implemented a lot more efficiently if I were proficient with regular expressions. The task of locating and editing broken image links into <code class="language-plaintext highlighter-rouge">html</code> tags is a classic <code class="language-plaintext highlighter-rouge">regexp</code> problem, but my knowledge of Python and regular expressions were not quite enough to implement the most efficient mechanism to tackle this problem. Nonetheless, my solution still produces the desired result, which is why I am very content with my first attempt at automation with Python and script.</p>
+
+<h1 id="conclusion">Conclusion</h1>
+
+<p>Now, I have a completely revised workflow that suits my purposes the best: Jupyter Notebooks to write code and generate figures alongside text explanations, and an automation system that converts these Jupyter Notebooks to markdown efficiently. All I have to do is to edit the default YAML front matter, such as coming up with good titles and categorizing my post to appropriate categories.</p>
+
+<p>This automation script is by no means perfect, which is why I plan on incremental updates as I go. Specifically, I might add additional features, such as the ability to auto-generate figure captions. I might also streamline the process of find and replace that occurs within the Python script after learning more about regular expressions. But for now, the project seems solid as it is, and I am happy with what I have.</p>
+
+<p>Having completed this little script, I am thinking of starting another automation project that will help me with my work at the PMO. This is going to be a much tougher challenge that involves reading in <code class="language-plaintext highlighter-rouge">.pdf</code> files and outputting <code class="language-plaintext highlighter-rouge">.xlsx</code> files, but hopefully I can streamline my workflow at the office with Python’s help. I am excited to see where this project will go, and I will definitely keep this posted. In the meanwhile, happy thanksgiving!</p>
+
+<p class="post-footer">Thanks for reading! <img src="/assets/images/assets/mo-144x144-white.png" alt="MO" /></p>
+
+                </div>
+            </div>
+        
+            <div class="post">
+                <div class="post-contain">
+                    <h1><a class="h1" href="/2022/08/19/why-is-this-not-working-properly/">Why Is This Not Working Properly</a></h1>
+            
+                    <span class="post-tags">
+                        [&nbsp;
+                        
+                            
+                            <a href="/tag/python">
+                                <span> # </span>python&nbsp;
+                            </a>    
+                        
+                            
+                            <a href="/tag/maths">
+                                <span> # </span>maths&nbsp;
+                            </a>    
+                        
+                            
+                            <a href="/tag/jekyll">
+                                <span> # </span>jekyll&nbsp;
+                            </a>    
+                        
+                        &nbsp;]
+                    </span>
+                
+                    <span class="post-date">19 Aug 2022</span>
+                
+                    <p>In the last post, I tested out the functionality of Jupyter Notebook, a platform that I am just starting to get acquainted with. I’m pleased with how that experimental post turned out, although there are still things to modify and improve.</p>
+
+<h3 id="using-jupyter-notebook-with-jekyll">Using Jupyter Notebook with Jekyll</h3>
+
+<p>In the last post, I tested out the functionality of Jupyter Notebook, a platform that I am just starting to get acquainted with. I’m pleased with how that experimental post turned out, although there are still things to modify and improve. In this post, I explain how I was able to automate the process of converting Jupyter Notebook into markdown using shell script and python commands.</p>
+
+<p class="post-footer">Thanks for reading! <img src="/assets/images/assets/mo-144x144-white.png" alt="MO" /></p>
+
+                </div>
+            </div>
+        
+            <div class="post">
+                <div class="post-contain">
+                    <h1><a class="h1" href="/2022/08/14/code-highlighting-with-rouge-highlight-tag/">Code Highlighting With Rouge Highlight Tag</a></h1>
+            
+                    <span class="post-tags">
+                        [&nbsp;
+                        
+                            
+                            <a href="/tag/python">
+                                <span> # </span>python&nbsp;
+                            </a>    
+                        
+                            
+                            <a href="/tag/maths">
+                                <span> # </span>maths&nbsp;
+                            </a>    
+                        
+                            
+                            <a href="/tag/fruit">
+                                <span> # </span>fruit&nbsp;
+                            </a>    
+                        
+                            
+                            <a href="/tag/banana">
+                                <span> # </span>banana&nbsp;
+                            </a>    
+                        
+                        &nbsp;]
+                    </span>
+                
+                    <span class="post-date">14 Aug 2022</span>
+                
+                    <div class="post-image">
+    <img src="/assets/images/row-elechon-form.jpg" alt="Row elechon form cover photo" />
+</div>
+
+<p>To make my code snippets more readable i’m using <a href="https://github.com/rouge-ruby/rouge">Rouge</a>Rouge highlighter,
+which is Jekyll’s default syntax highlighter.  You only need to run this command to get running:</p>
+
+<p><code class="language-plaintext highlighter-rouge">gem install kramdown rouge</code></p>
+
+<p>To use, just surround your code snipped with <code class="language-plaintext highlighter-rouge">{% highlight language %}</code> and  <code class="language-plaintext highlighter-rouge">{% endhighlight %}</code>.</p>
+
+<p><em>Remembering to replace the languageCode with your code language</em>.  For more help,<br />
+<a href="https://github.com/rouge-ruby/rouge/wiki/List-of-supported-languages-and-lexers">have a look here</a> for the list of 
+supported languages.</p>
+
+<h3 id="example">Example</h3>
+
+<div class="language-plaintext highlighter-rouge"><div class="highlight"><pre class="highlight"><code>import numpy as np
+np.random.seed(27)
+A = np.random.randint(1,10,size = (3,3))
+B = np.random.randint(1,10,size = (3,2))
+print(f"Matrix A:\n {A}\n")
+print(f"Matrix B:\n {B}\n")
+</code></pre></div></div>
+
+<p class="post-footer">Thanks for reading! <img src="/assets/images/assets/mo-144x144-white.png" alt="MO" /></p>
+
+                </div>
+            </div>
+        
+      </div>
+      <!-- posts ends -->
+      
+      
+      <!-- Pagination -->
+      <div class="pagination">
+        <div class="pagination-wrap">
+            
+                <div class="pagination-item">
+                    <a class="older" href="/page2">Older</a>
+                </div>                
+            
+            
+            <div class="pagination-item">
+                <span class="newer">Newer</span>
+            </div>                
+            
+        </div>
+      </div>
+</div>
+<!-- container ends -->
+
+
+
+            </div>
+            <footer>
+              <h3>FOOTER</h3>
+            </footer>
+          </div>
+          
+        </main>
+      </div>  
+      <!-- content-wrap ends -->    
+    </div>
+    <!-- app ends -->
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            processEscapes: true},
+            jax: ["input/TeX","input/MathML","input/AsciiMath","output/CommonHTML"],
+            extensions: ["tex2jax.js","mml2jax.js","asciimath2jax.js","MathMenu.js","MathZoom.js","AssistiveMML.js", "[Contrib]/a11y/accessibility-menu.js"],
+            TeX: {
+            extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"],
+            equationNumbers: {
+            autoNumber: "AMS"
+            }
+          }
+        });
+      </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js" 
+        integrity="sha512-gU7kztaQEl7SHJyraPfZLQCNnrKdaQi5ndOyt4L4UPL/FHDd/uB9Je6KDARIqwnNNE27hnqoWLBq+Kpe4iHfeQ==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+    <script>hljs.highlightAll();</script>
+  </body>
+</html>

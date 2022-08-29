@@ -1,0 +1,47 @@
+<!-- sidebar starts -->
+<aside class="sidebar">
+        <div class="sidebar-contain">
+            <div class="sidebar-sticky">
+                <!-- sidebar-column starts -->
+                <div class="sidebar-column">
+                    <div class="meta-title">
+                        <h1 class="h1 ">{{ site.title }}</h1>
+                        <p class="meta-tagline">
+                            {{ site.description }}
+                        </p>            
+                    </div>
+        
+                    <ul class="meta-links">
+
+                        <li class="meta-link-item">
+                            <a href="/" {% if page.url == "/" %} class="active"; {% endif %}>Home</a>
+                          </li>
+
+                        <li class="meta-link-item">
+                            <a href="/categories" {% if page.url == "/categories/"%} class="active"; {% endif %}>
+                                Categories
+                            </a>
+                        </li>
+                        <li class="meta-link-item">
+                            <a href="/" {% if page.url == "Tags" %} class="active"; {% endif %}>
+                                Tags
+                            </a>
+                        </li>
+                        <li class="meta-link-item">
+                            <a href="/about" {% if page.url == "/about/" %} class="active"; {% endif %}>
+                                About
+                              </a>
+                        </li>
+                        <li class="meta-link-item">
+                            <a href="/" {% if page.url == "Archives" %} class="active"; {% endif %}>
+                                Archives
+                            </a>
+                        </li>
+                    </ul>
+                </div>
+                <!-- sidebar-column ends -->
+            </div>
+        </div>
+        
+</aside>
+<!-- sidebar ends -->

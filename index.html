@@ -1,0 +1,99 @@
+---
+layout: default
+title: Home
+---
+
+<!-- container starts -->
+<div class="container">
+    <!-- posts starts -->
+    <div class="posts">
+        <!-- Pined posts -->
+        {% if paginator.page == 1 %}
+          {% for post in site.posts %}
+            {% if post.pined %}
+            <div class="post-contain">
+                <div class="post">
+
+                    <h1><a class="h1" href="{{ post.url }}">{{ post.title }}</a></h1>
+            
+                        <span class="post-tags">
+                        [&nbsp;
+                        {% for tag in post.tags %}
+                            {% capture tag_name %}{{ tag }}{% endcapture %}
+                            <a href="/tag/{{ tag_name }}">
+                                <span> # </span>{{ tag_name }}&nbsp;
+                            </a>    
+                        {% endfor %}
+                        &nbsp;]
+                        </span>
+            
+                        <span class="post-date">{{ post.date | date_to_string }}</span>
+            
+                        {{ post.content }}
+                  </div>  
+            </div>
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+      
+        <!-- Normal posts listed in the order of time -->
+      
+        {% for post in paginator.posts %}
+            <div class="post">
+                <div class="post-contain">
+                    <h1><a class="h1" href="{{ post.url }}">{{ post.title }}</a></h1>
+            
+                    <span class="post-tags">
+                        [&nbsp;
+                        {% for tag in post.tags %}
+                            {% capture tag_name %}{{ tag }}{% endcapture %}
+                            <a href="/tag/{{ tag_name }}">
+                                <span> # </span>{{ tag_name }}&nbsp;
+                            </a>    
+                        {% endfor %}
+                        &nbsp;]
+                    </span>
+                
+                    <span class="post-date">{{ post.date | date_to_string }}</span>
+                
+                    {{ post.content }}
+                </div>
+            </div>
+        {% endfor %}
+      </div>
+      <!-- posts ends -->
+      
+      
+      <!-- Pagination -->
+      <div class="pagination">
+        <div class="pagination-wrap">
+            {% if paginator.next_page %}
+                <div class="pagination-item">
+                    <a class="older" href="/page{{paginator.next_page}}">Older</a>
+                </div>                
+            {% else %}
+                <div class="pagination-item">
+                    <span class="older">Older</span>
+                </div>                
+            {% endif %}
+            {% if paginator.previous_page %}
+            {% if paginator.page == 2 %}
+                <div class="pagination-item">
+                    <a class="newer" href="/">Newer</a>
+                </div>                
+            {% else %}
+                <div class="pagination-item">
+                    <a class="newer" href="/page{{paginator.previous_page}}">Newer</a>
+                </div>                
+            {% endif %}
+            {% else %}
+            <div class="pagination-item">
+                <span class="newer">Newer</span>
+            </div>                
+            {% endif %}
+        </div>
+      </div>
+</div>
+<!-- container ends -->
+
+

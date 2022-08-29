@@ -1,0 +1,54 @@
+<!doctype html>
+<html>
+
+  {% include head.html %}
+
+  <body class="dark-theme">
+    <!-- app starts -->
+    <div id="app">
+      <!-- content-wrap starts -->
+      <div class="content-wrap">
+        {% include sidebar.html %}
+        
+        <main>
+          <div class="main-wrap">
+            <div class="main-contenr">
+              {{ content }}
+            </div>
+            <footer>
+              <h3>FOOTER</h3>
+            </footer>
+          </div>
+          
+        </main>
+      </div>  
+      <!-- content-wrap ends -->    
+    </div>
+    <!-- app ends -->
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script type="text/x-mathjax-config">
+        MathJax.Hub.Config({
+          tex2jax: {
+            inlineMath: [['$','$'], ['\\(','\\)']],
+            processEscapes: true},
+            jax: ["input/TeX","input/MathML","input/AsciiMath","output/CommonHTML"],
+            extensions: ["tex2jax.js","mml2jax.js","asciimath2jax.js","MathMenu.js","MathZoom.js","AssistiveMML.js", "[Contrib]/a11y/accessibility-menu.js"],
+            TeX: {
+            extensions: ["AMSmath.js","AMSsymbols.js","noErrors.js","noUndefined.js"],
+            equationNumbers: {
+            autoNumber: "AMS"
+            }
+          }
+        });
+      </script>
+    <script type="text/javascript" id="MathJax-script" async
+      src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.6.0/highlight.min.js" 
+        integrity="sha512-gU7kztaQEl7SHJyraPfZLQCNnrKdaQi5ndOyt4L4UPL/FHDd/uB9Je6KDARIqwnNNE27hnqoWLBq+Kpe4iHfeQ==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer">
+    </script>
+    <script>hljs.highlightAll();</script>
+  </body>
+</html>

@@ -1,0 +1,34 @@
+# Dependencies
+markdown:         kramdown
+highlighter:      rouge
+
+# Permalinks
+permalink:        pretty
+
+# Setup
+title:            Michiel Oppenheimer
+tagline:          'Michiel Oppenheimer'
+description:      '...Just wheeling my way through <br>life, science, and code...'
+url:              http://longqian.me/
+
+author:
+  name:           'Michiel Oppenheimer'
+  #url:            http://
+
+paginate:         3
+#google_analytics: ''
+bing_seo:		  ''
+emailme:          mailto:michieloppenheimer+blog@gmail.com
+
+plugins:
+  - jekyll-paginate
+  - jekyll-seo-tag
+  - jekyll-sitemap
+  - jekyll-feed
+
+github:
+  repo:           https://github.com/oppenheimerm.github.io/
+
+tags:
+
+github_username:  oppenheimerm

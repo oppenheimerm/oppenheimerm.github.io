@@ -1,0 +1,6 @@
+- text: Home
+  url: /
+- text: About
+  link: /about.html
+- text: Categories
+  url: /categories.html
